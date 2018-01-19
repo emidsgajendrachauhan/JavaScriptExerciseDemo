@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>TypeScript Coding Test</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="./src/css/Tasks.css" type="text/css" />
     <style type="text/css">
         body {
             margin: 20px;
@@ -14,8 +15,32 @@
 </head>
 
 <body>
-    <h1>JavaScript Coding Test</h1>
-    <label id="test"></label>
+    <!-- <label id="test"></label> -->
+    <div class="container">
+        <div class="row headerRow">
+            <div class="col-sm-2 text-align-center font-weight-bold">Tasks</div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+            </div>
+        </div>
+        <div class="row mainRow">
+            <div class="col-sm-2 text-align-center tasks font-weight-bold">
+            Task List
+            </div>
+            <div class="col-sm-10 taskList">
+                <div class="task-board-header">
+                    <span>
+                        <label class="font-weight-bold">All Tasks</label>
+                        <button class="marginLeft">New Task</button>
+                        <button>Remove Selected</button>
+                    </span>
+                </div>
+                <div class="task-board-dashboard">
+                    Task Board Main Page
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     var documentObject = window.document;

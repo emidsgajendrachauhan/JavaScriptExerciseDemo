@@ -1,0 +1,37 @@
+body{
+    border-style: groove;
+    border-width: 10px;
+}
+.mainDiv{
+    height: 100%;
+    width: 100%;
+    border-color: darkblue;
+    border-style: solid;
+}
+.headerRow{
+    height: 10%;
+}
+.menuPart{
+    height: -webkit-fill-available;
+}
+.tasks{
+    height: 20%;
+    background-color: rgb(1, 221, 203);
+}
+.taskList{
+    height: -webkit-fill-available;
+    border-style: outset;
+    border-width: 15px;
+}
+.task-board-header{
+    padding-top: 2%;
+}
+.font-weight-bold{
+    font-weight: bold;
+}
+.text-align-center{
+    text-align: center;
+}
+.marginLeft{
+    margin-left: 65%;
+}
