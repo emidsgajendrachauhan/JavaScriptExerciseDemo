@@ -35,3 +35,7 @@ body{
 .margin-left-align{
     margin-left: 4%;
 }
+.save-task-modal{
+    margin-top: -38px;
+    margin-left: 400px;
+}

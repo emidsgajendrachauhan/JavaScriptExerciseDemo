@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <title>TypeScript Coding Test</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./src/css/Tasks.css" type="text/css" />
     <style type="text/css">
         body {
@@ -15,12 +17,31 @@
 </head>
 
 <body>
-    <!-- <label id="test"></label> -->
+    <div class="container-model">              
+        <!-- Modal -->
+        <div class="modal fade-in" id="myModal" role="dialog">
+                <div class="modal-dialog">                  
+                <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">                        
+                            <h4 class="modal-title">Add new task</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control col-sm-9" id="addNewTask">
+                            <button class="btn btn-info save-task-modal">Save</button>
+                        </div>
+                    </div>
+                </div>
+        </div>                
+    </div>
+
+    <label id="test"></label>
     <div class="container">
         <div class="row headerRow">
             <div class="col-sm-2 text-align-center font-weight-bold">Tasks</div>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                <input type="text" class="form-control" id="searchTask">
             </div>
         </div>
         <div class="row mainRow">
@@ -31,8 +52,8 @@
                 <div class="task-board-header">
                     <span>
                         <label class="font-weight-bold col-sm-8">All Tasks</label>
-                        <button class="margin-left-align">New Task</button>
-                        <button>Remove Selected</button>
+                        <button class="margin-left-align btn btn-info" data-toggle="modal" data-target="#myModal">New Task</button>
+                        <button class="btn btn-info">Remove Selected</button>
                     </span>
                 </div>
                 <div class="task-board-dashboard task-board-header">
@@ -40,19 +61,23 @@
                         <label class="check col-sm-1"><input type="checkbox" name="optcheck"></label>
                         <label class="col-sm-9">This is dummy label</label>
                         <span col-sm-2>
-                            <button>Edit</button>
-                            <button>Cancel</button>
+                            <button class="btn btn-info">Edit</button>
+                            <button class="btn btn-info">Cancel</button>
                         </span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </body>
 <script>
     var documentObject = window.document;
     var elementUpdater = new ElementUpdate(documentObject);
     elementUpdater.updateElement('I am a label');
+
+    var elementUpdater1 = new AddingNewTask(documentObject);
+    elementUpdater1.AddNewTask(document.getElementById('addNewTask').value);
 </script>
 
 </html>

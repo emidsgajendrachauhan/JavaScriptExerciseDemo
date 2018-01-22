@@ -15,3 +15,11 @@ class ElementUpdate extends BaseElementUpdater {
         super.update(msg + '\r\n');
     }
 }
+
+class AddingNewTask{
+    constructor(document){}
+
+    AddNewTask(task){
+        console.log(task);
+    }
+}

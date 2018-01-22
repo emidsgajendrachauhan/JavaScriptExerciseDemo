@@ -43,4 +43,19 @@ var ElementUpdate = function (_BaseElementUpdater) {
 
     return ElementUpdate;
 }(BaseElementUpdater);
+
+var AddingNewTask = function () {
+    function AddingNewTask(document) {
+        _classCallCheck(this, AddingNewTask);
+    }
+
+    _createClass(AddingNewTask, [{
+        key: 'AddNewTask',
+        value: function AddNewTask(task) {
+            console.log(task);
+        }
+    }]);
+
+    return AddingNewTask;
+}();
 //# sourceMappingURL=app.js.map
