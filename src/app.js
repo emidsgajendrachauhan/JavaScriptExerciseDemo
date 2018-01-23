@@ -26,7 +26,7 @@ class AddNewRecord {
         //Creating li element
         let li = document.createElement("li");
         li.className = "list-group-item list-group-item-info";
-        li.id = `nodeElement${node}`;
+        li.id = `nodeElement_${node}`;
 
         //Adding Label with Checkbox
         let lbl = document.createElement('label');
@@ -48,16 +48,16 @@ class AddNewRecord {
         let btn2 = document.createElement('button');
         btn1.className = "btn btn-info";
         btn2.className = "btn btn-info";
-        btn1.id = `btnOneId${node}`;
-        btn2.id = `btnTwoId${node}`;
+        btn1.id = `btnOneId_${node}`;
+        btn2.id = `btnTwoId_${node}`;
         btn1.innerHTML = "Edit";
         btn2.innerHTML = "Remove";
 
-        btn1.addEventListener('click',function(btn1){
+        btn1.addEventListener('click', function (btn1) {
             console.log(btn1.path[0].id);
             document.getElementById(btn1.path[0].id);
         })
-        btn2.addEventListener('click',function(btn2){
+        btn2.addEventListener('click', function (btn2) {
             console.log(btn2.path[0].id);
             let removeChileRow = document.getElementById(btn2.path[0].id).parentNode;
             let ul = removeChileRow.parentNode;
@@ -74,10 +74,15 @@ class AddNewRecord {
             alert("You must write something!");
         }
         else {
-            tasksList.push(inputValue);//Storing value to global variable.
+            tasksList.push({
+                'key': li.id,
+                'value': inputValue
+            });//Storing value to global variable.
+            
+            //Adding row to the dashboard.
             document.getElementById("myUL").appendChild(li);
         }
         document.getElementById("addNewTask").value = '';
     }
-    
+
 }

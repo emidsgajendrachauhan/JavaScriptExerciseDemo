@@ -60,7 +60,7 @@ var AddNewRecord = function () {
             //Creating li element
             var li = document.createElement("li");
             li.className = "list-group-item list-group-item-info";
-            li.id = 'nodeElement' + node;
+            li.id = 'nodeElement_' + node;
 
             //Adding Label with Checkbox
             var lbl = document.createElement('label');
@@ -82,8 +82,8 @@ var AddNewRecord = function () {
             var btn2 = document.createElement('button');
             btn1.className = "btn btn-info";
             btn2.className = "btn btn-info";
-            btn1.id = 'btnOneId' + node;
-            btn2.id = 'btnTwoId' + node;
+            btn1.id = 'btnOneId_' + node;
+            btn2.id = 'btnTwoId_' + node;
             btn1.innerHTML = "Edit";
             btn2.innerHTML = "Remove";
 
@@ -107,7 +107,12 @@ var AddNewRecord = function () {
             if (inputValue === '') {
                 alert("You must write something!");
             } else {
-                tasksList.push(inputValue); //Storing value to global variable.
+                tasksList.push({
+                    'key': li.id,
+                    'value': inputValue
+                }); //Storing value to global variable.
+
+                //Adding row to the dashboard.
                 document.getElementById("myUL").appendChild(li);
             }
             document.getElementById("addNewTask").value = '';
