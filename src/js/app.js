@@ -44,6 +44,8 @@ var ElementUpdate = function (_BaseElementUpdater) {
     return ElementUpdate;
 }(BaseElementUpdater);
 
+var node = 0;
+
 var AddNewRecord = function () {
     function AddNewRecord() {
         _classCallCheck(this, AddNewRecord);
@@ -52,17 +54,50 @@ var AddNewRecord = function () {
     _createClass(AddNewRecord, [{
         key: 'AddNewRow',
         value: function AddNewRow() {
+            node++;
+
+            //Creating li element
             var li = document.createElement("li");
+            li.className = "list-group-item list-group-item-info";
+            li.id = 'nodeElement' + node;
+
+            //Adding Label with Checkbox
+            var lbl = document.createElement('label');
+            lbl.className = "check col-sm-1";
+            var checkbox = document.createElement('input');
+            checkbox.type = "checkbox";
+            checkbox.name = "optcheck";
+            lbl.appendChild(checkbox);
+
+            //Adding Label with Input value
+            var lbl1 = document.createElement('label');
+            lbl1.className = "col-sm-9";
             var inputValue = document.getElementById("addNewTask").value;
             var t = document.createTextNode(inputValue);
-            li.className = "list-group-item list-group-item-info";
-            li.appendChild(t);
+            lbl1.appendChild(t);
+
+            //Adding Edit and Cancel buttons
+            var btn1 = document.createElement('button');
+            var btn2 = document.createElement('button');
+            btn1.className = "btn btn-info";
+            btn2.className = "btn btn-info";
+            btn1.id = "btnOneId";
+            btn2.id = "btnTwoId";
+            btn1.innerHTML = "Edit";
+            btn2.innerHTML = "Remove";
+
+            //Appending HTML dynamically to li node
+            li.appendChild(lbl);
+            li.appendChild(lbl1);
+            li.appendChild(btn1);
+            li.appendChild(btn2);
 
             if (inputValue === '') {
                 alert("You must write something!");
             } else {
                 document.getElementById("myUL").appendChild(li);
             }
+            document.getElementById("addNewTask").value = '';
         }
     }]);
 

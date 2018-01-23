@@ -39,3 +39,7 @@ body{
     margin-top: -38px;
     margin-left: 400px;
 }
+/* Darker background-color on hover */
+ul li:hover{
+    background: #ddd;
+}
