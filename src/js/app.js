@@ -44,18 +44,28 @@ var ElementUpdate = function (_BaseElementUpdater) {
     return ElementUpdate;
 }(BaseElementUpdater);
 
-var AddingNewTask = function () {
-    function AddingNewTask(document) {
-        _classCallCheck(this, AddingNewTask);
+var AddNewRecord = function () {
+    function AddNewRecord() {
+        _classCallCheck(this, AddNewRecord);
     }
 
-    _createClass(AddingNewTask, [{
-        key: 'AddNewTask',
-        value: function AddNewTask(task) {
-            console.log(task);
+    _createClass(AddNewRecord, [{
+        key: 'AddNewRow',
+        value: function AddNewRow() {
+            var li = document.createElement("li");
+            var inputValue = document.getElementById("addNewTask").value;
+            var t = document.createTextNode(inputValue);
+            li.className = "list-group-item list-group-item-info";
+            li.appendChild(t);
+
+            if (inputValue === '') {
+                alert("You must write something!");
+            } else {
+                document.getElementById("myUL").appendChild(li);
+            }
         }
     }]);
 
-    return AddingNewTask;
+    return AddNewRecord;
 }();
 //# sourceMappingURL=app.js.map

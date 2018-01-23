@@ -16,10 +16,21 @@ class ElementUpdate extends BaseElementUpdater {
     }
 }
 
-class AddingNewTask{
-    constructor(document){}
+class AddNewRecord{
+    constructor(){}
 
-    AddNewTask(task){
-        console.log(task);
+    AddNewRow(){
+        let li = document.createElement("li");
+        let inputValue = document.getElementById("addNewTask").value;
+        let t = document.createTextNode(inputValue);
+        li.className = "list-group-item list-group-item-info";
+        li.appendChild(t);
+
+        if(inputValue === ''){
+            alert("You must write something!");
+        }
+        else{
+            document.getElementById("myUL").appendChild(li);
+        }
     }
 }
