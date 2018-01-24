@@ -32,6 +32,7 @@ var BaseElementUpdater = function () {
             lbl.className = "check col-sm-1";
             var checkbox = document.createElement('input');
             checkbox.type = "checkbox";
+            checkbox.id = "chk_" + inputKey;
             lbl.appendChild(checkbox);
 
             //Adding Label with Input value
@@ -54,7 +55,6 @@ var BaseElementUpdater = function () {
                 document.getElementById(btn1.path[0].id);
             });
             btn2.addEventListener('click', function (btn2) {
-                console.log(btn2.path[0].id);
                 //Deleting row from HTML
                 var removeChileRow = document.getElementById(btn2.path[0].id).parentNode;
                 var ul = removeChileRow.parentNode;
@@ -80,14 +80,14 @@ var BaseElementUpdater = function () {
 
     }, {
         key: "Load",
-        value: function Load() {
+        value: function Load(tasksListVar) {
             document.getElementById('myUL').innerHTML = "";
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
 
             try {
-                for (var _iterator = tasksList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                for (var _iterator = tasksListVar[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var item = _step.value;
 
                     this.LoadDashboard(item.key, item.value);
@@ -134,10 +134,52 @@ var AddNewRecord = function (_BaseElementUpdater) {
                     'value': inputValue
                 }); //Storing value to global variable
 
-                _get(AddNewRecord.prototype.__proto__ || Object.getPrototypeOf(AddNewRecord.prototype), "Load", this).call(this);
+                _get(AddNewRecord.prototype.__proto__ || Object.getPrototypeOf(AddNewRecord.prototype), "Load", this).call(this, tasksList);
                 node++;
             }
             document.getElementById("addNewTask").value = '';
+        }
+
+        // RemoveSelected(){
+        //     let checkedVal = document.querySelector('#chk_0').checked;
+        // }
+
+        //Filter functionality
+        // FilterData() {
+        //     let searchText = document.getElementById("searchTask").value;
+        //     if (searchText) {
+        //         let filteredList = new Array();
+        //         for (let i = 0; i < tasksList.length; i++) {
+        //             if (tasksList[i].value === searchText) {
+        //                 filteredList.push({
+        //                     'key': tasksList[i].key,
+        //                     'value': tasksList[i].value
+        //                 });
+        //             }
+        //         }
+        //         super.Load(filteredList);
+        //     }
+        //     else{
+        //         super.Load(tasksList);
+        //     }
+        // }
+
+    }, {
+        key: "FilterData",
+        value: function FilterData() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("searchTask");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("label")[1];
+                if (a != null && a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
         }
     }]);
 

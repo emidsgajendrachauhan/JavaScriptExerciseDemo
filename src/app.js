@@ -16,6 +16,7 @@ class BaseElementUpdater {
         lbl.className = "check col-sm-1";
         let checkbox = document.createElement('input');
         checkbox.type = "checkbox"
+        checkbox.id = `chk_${inputKey}`;
         lbl.appendChild(checkbox);
 
         //Adding Label with Input value
@@ -38,7 +39,6 @@ class BaseElementUpdater {
             document.getElementById(btn1.path[0].id);
         })
         btn2.addEventListener('click', function (btn2) {
-            console.log(btn2.path[0].id);
             //Deleting row from HTML
             let removeChileRow = document.getElementById(btn2.path[0].id).parentNode;
             let ul = removeChileRow.parentNode;
@@ -59,9 +59,9 @@ class BaseElementUpdater {
     }
 
     //Loading all the tasks
-    Load() {
+    Load(tasksListVar) {
         document.getElementById('myUL').innerHTML = "";
-        for (var item of tasksList) {
+        for (var item of tasksListVar) {
             this.LoadDashboard(item.key, item.value);
         }
     }
@@ -82,10 +82,51 @@ class AddNewRecord extends BaseElementUpdater {
                 'value': inputValue
             });//Storing value to global variable
 
-            super.Load();
+            super.Load(tasksList);
             node++;
         }
         document.getElementById("addNewTask").value = '';
+    }
+
+    // RemoveSelected(){
+    //     let checkedVal = document.querySelector('#chk_0').checked;
+    // }
+
+    //Filter functionality
+    // FilterData() {
+    //     let searchText = document.getElementById("searchTask").value;
+    //     if (searchText) {
+    //         let filteredList = new Array();
+    //         for (let i = 0; i < tasksList.length; i++) {
+    //             if (tasksList[i].value === searchText) {
+    //                 filteredList.push({
+    //                     'key': tasksList[i].key,
+    //                     'value': tasksList[i].value
+    //                 });
+    //             }
+    //         }
+    //         super.Load(filteredList);
+    //     }
+    //     else{
+    //         super.Load(tasksList);
+    //     }
+    // }
+
+    FilterData() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("searchTask");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++){
+            a = li[i].getElementsByTagName("label")[1];
+            if (a != null &&a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            }
+            else{
+                li[i].style.display = "none";
+            }
+        }
     }
 
 }

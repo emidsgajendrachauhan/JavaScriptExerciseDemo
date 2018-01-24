@@ -20,19 +20,19 @@
     <div class="container-model">              
         <!-- Modal -->
         <div class="modal fade-in" id="myModal" role="dialog">
-                <div class="modal-dialog">                  
-                <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">                        
-                            <h4 class="modal-title">Add new task</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="text" class="form-control col-sm-9" id="addNewTask" placeholder="Enter your task here...">
-                            <button class="btn btn-info save-task-modal" onclick="addingNewRow.AddNewRow()" data-dismiss="modal">Save</button>
-                        </div>
+            <div class="modal-dialog">                  
+            <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">                        
+                        <h4 class="modal-title">Add new task</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control col-sm-9" id="addNewTask" placeholder="Enter your task here...">
+                        <button class="btn btn-info save-task-modal" onclick="addingNewRow.AddNewRow()" data-dismiss="modal">Save</button>
                     </div>
                 </div>
+            </div>
         </div>                
     </div>
 
@@ -41,7 +41,7 @@
         <div class="row headerRow">
             <div class="col-sm-2 text-align-center font-weight-bold">Tasks</div>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="searchTask">
+                <input type="text" class="form-control" id="searchTask" onkeyup="addingNewRow.FilterData()">
             </div>
         </div>
         <div class="row mainRow">
