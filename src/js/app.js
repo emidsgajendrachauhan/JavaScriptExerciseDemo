@@ -25,7 +25,7 @@ var BaseElementUpdater = function () {
             //Creating li element
             var li = document.createElement("li");
             li.className = "list-group-item list-group-item-info";
-            li.id = "nodeElement_" + inputKey;
+            li.id = "" + inputKey;
 
             //Adding Label with Checkbox
             var lbl = document.createElement('label');
@@ -60,7 +60,10 @@ var BaseElementUpdater = function () {
                 var ul = removeChileRow.parentNode;
                 ul.removeChild(removeChileRow);
 
-                tasksList.splice(inputKey, 1); //Deleting record from Global list
+                //tasksList.splice(removeChileRow.id, 1);
+                tasksList.splice(tasksList.findIndex(function (index) {
+                    return index.key === parseInt(removeChileRow.id);
+                }), 1); //Deleting record from Global list
             });
 
             //Appending HTML dynamically to li node
@@ -71,6 +74,38 @@ var BaseElementUpdater = function () {
 
             //Adding row to the dashboard
             document.getElementById("myUL").appendChild(li);
+        }
+
+        //Loading all the tasks
+
+    }, {
+        key: "Load",
+        value: function Load() {
+            document.getElementById('myUL').innerHTML = "";
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = tasksList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var item = _step.value;
+
+                    this.LoadDashboard(item.key, item.value);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
         }
     }]);
 
@@ -99,33 +134,7 @@ var AddNewRecord = function (_BaseElementUpdater) {
                     'value': inputValue
                 }); //Storing value to global variable
 
-                document.getElementById('myUL').innerHTML = "";
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
-
-                try {
-                    for (var _iterator = tasksList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                        var item = _step.value;
-
-                        console.log(item.key + ", " + item.value);
-                        _get(AddNewRecord.prototype.__proto__ || Object.getPrototypeOf(AddNewRecord.prototype), "LoadDashboard", this).call(this, item.key, item.value);
-                    }
-                } catch (err) {
-                    _didIteratorError = true;
-                    _iteratorError = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion && _iterator.return) {
-                            _iterator.return();
-                        }
-                    } finally {
-                        if (_didIteratorError) {
-                            throw _iteratorError;
-                        }
-                    }
-                }
-
+                _get(AddNewRecord.prototype.__proto__ || Object.getPrototypeOf(AddNewRecord.prototype), "Load", this).call(this);
                 node++;
             }
             document.getElementById("addNewTask").value = '';

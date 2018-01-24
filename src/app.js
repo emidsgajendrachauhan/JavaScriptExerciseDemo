@@ -9,7 +9,7 @@ class BaseElementUpdater {
         //Creating li element
         let li = document.createElement("li");
         li.className = "list-group-item list-group-item-info";
-        li.id = `nodeElement_${inputKey}`;
+        li.id = `${inputKey}`;
 
         //Adding Label with Checkbox
         let lbl = document.createElement('label');
@@ -44,7 +44,8 @@ class BaseElementUpdater {
             let ul = removeChileRow.parentNode;
             ul.removeChild(removeChileRow);
 
-            tasksList.splice(inputKey, 1); //Deleting record from Global list
+            //tasksList.splice(removeChileRow.id, 1);
+            tasksList.splice(tasksList.findIndex(index => index.key === parseInt(removeChileRow.id)), 1); //Deleting record from Global list
         })
 
         //Appending HTML dynamically to li node
@@ -55,6 +56,14 @@ class BaseElementUpdater {
 
         //Adding row to the dashboard
         document.getElementById("myUL").appendChild(li);
+    }
+
+    //Loading all the tasks
+    Load() {
+        document.getElementById('myUL').innerHTML = "";
+        for (var item of tasksList) {
+            this.LoadDashboard(item.key, item.value);
+        }
     }
 }
 
@@ -73,11 +82,7 @@ class AddNewRecord extends BaseElementUpdater {
                 'value': inputValue
             });//Storing value to global variable
 
-            document.getElementById('myUL').innerHTML = "";
-            for (var item of tasksList) {
-                console.log(`${item.key}, ${item.value}`);
-                super.LoadDashboard(item.key, item.value);
-            }
+            super.Load();
             node++;
         }
         document.getElementById("addNewTask").value = '';
