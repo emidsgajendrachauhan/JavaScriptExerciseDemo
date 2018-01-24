@@ -36,16 +36,21 @@ class BaseElementUpdater {
         btn2.innerHTML = "Remove";
 
         btn1.addEventListener('click', function (btn1) {
-            document.getElementById(btn1.path[0].id);
+            let hideParentNode = document.getElementById(btn1.path[0].id).parentNode;
+            hideParentNode.style.display = 'none';
+            let showParentNode = document.getElementById(btn1Edit.id).parentNode;
+            showParentNode.style.display = '';
         });
         btn2.addEventListener('click', function (btn2) {
             //Deleting row from HTML
             let removeChileRow = document.getElementById(btn2.path[0].id).parentNode;
             let ul = removeChileRow.parentNode;
             ul.removeChild(removeChileRow);
+            //Removing Edit elements for deleted row
+            ul.removeChild(document.getElementById(removeChileRow.id))
 
-            //tasksList.splice(removeChileRow.id, 1);
-            tasksList.splice(tasksList.findIndex(index => index.key === parseInt(removeChileRow.id)), 1); //Deleting record from Global list
+            //Deleting record from Global list
+            tasksList.splice(tasksList.findIndex(index => index.key === parseInt(removeChileRow.id)), 1);
         });
 
         //Appending HTML dynamically to li node
@@ -56,6 +61,36 @@ class BaseElementUpdater {
 
         //Adding row to the dashboard
         document.getElementById("myUL").appendChild(li);
+
+        //Create HTML elements to Edit row
+        let liEdit = document.createElement("li");
+        liEdit.className = "list-group-item list-group-item-info";
+        liEdit.id = `${inputKey}`;
+        let txtBoxEdit = document.createElement('input');
+        txtBoxEdit.className = "col-sm-10";
+        txtBoxEdit.type = "text";
+        txtBoxEdit.value = inputValue;
+        let btn1Edit = document.createElement('button');
+        let btn2Edit = document.createElement('button');
+        btn1Edit.className = "btn btn-info";
+        btn2Edit.className = "btn btn-info";
+        btn1Edit.id = `editSaveBtn_${inputKey}`;
+        btn2Edit.id = `editCancelBtn_${inputKey}`;
+        btn1Edit.innerHTML = "Save";
+        btn2Edit.innerHTML = "Cancel";
+        btn1Edit.addEventListener('click', function (btn1Edit) {
+        });
+        btn2Edit.addEventListener('click', function (btn2Edit) {
+            let showParentNode = document.getElementById(btn1Edit.id).parentNode;
+            showParentNode.style.display = 'none';
+            let hideParentNode = document.getElementById(btn1.id).parentNode;
+            hideParentNode.style.display = '';            
+        });
+        liEdit.appendChild(txtBoxEdit);
+        liEdit.appendChild(btn1Edit);
+        liEdit.appendChild(btn2Edit);
+        liEdit.style.display = "none";
+        document.getElementById("myUL").appendChild(liEdit);
     }
 
     //Loading all the tasks
@@ -87,30 +122,6 @@ class AddNewRecord extends BaseElementUpdater {
         }
         document.getElementById("addNewTask").value = '';
     }
-
-    // RemoveSelected(){
-    //     let checkedVal = document.querySelector('#chk_0').checked;
-    // }
-
-    //Filter functionality
-    // FilterData() {
-    //     let searchText = document.getElementById("searchTask").value;
-    //     if (searchText) {
-    //         let filteredList = new Array();
-    //         for (let i = 0; i < tasksList.length; i++) {
-    //             if (tasksList[i].value === searchText) {
-    //                 filteredList.push({
-    //                     'key': tasksList[i].key,
-    //                     'value': tasksList[i].value
-    //                 });
-    //             }
-    //         }
-    //         super.Load(filteredList);
-    //     }
-    //     else{
-    //         super.Load(tasksList);
-    //     }
-    // }
 
     //Filter functionality
     FilterData() {
