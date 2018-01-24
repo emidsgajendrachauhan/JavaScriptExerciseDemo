@@ -164,12 +164,17 @@ var AddNewRecord = function (_BaseElementUpdater) {
         //     }
         // }
 
+        //Filter functionality
+
     }, {
         key: "FilterData",
         value: function FilterData() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("searchTask");
-            filter = input.value.toUpperCase();
+            var filter = void 0,
+                ul = void 0,
+                li = void 0,
+                a = void 0,
+                i = void 0;
+            filter = document.getElementById("searchTask").value.toUpperCase();
             ul = document.getElementById("myUL");
             li = ul.getElementsByTagName("li");
             for (i = 0; i < li.length; i++) {
@@ -180,6 +185,74 @@ var AddNewRecord = function (_BaseElementUpdater) {
                     li[i].style.display = "none";
                 }
             }
+        }
+
+        //Delete functionality
+
+    }, {
+        key: "RemoveSelectedData",
+        value: function RemoveSelectedData() {
+            var needToRemove = new Array();
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+                var _loop = function _loop() {
+                    var item = _step2.value;
+
+                    if (document.querySelector("#chk_" + item.key).checked) {
+                        needToRemove.push(tasksList.findIndex(function (index) {
+                            return index.key === parseInt(item.key);
+                        }));
+                    }
+                };
+
+                for (var _iterator2 = tasksList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    _loop();
+                }
+                //Removing data from list in reverse fashion as in forward mode not able to get the last index
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
+                }
+            }
+
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
+
+            try {
+                for (var _iterator3 = needToRemove.reverse()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                    var itemRemove = _step3.value;
+
+                    tasksList.splice(itemRemove, 1);
+                }
+            } catch (err) {
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                        _iterator3.return();
+                    }
+                } finally {
+                    if (_didIteratorError3) {
+                        throw _iteratorError3;
+                    }
+                }
+            }
+
+            _get(AddNewRecord.prototype.__proto__ || Object.getPrototypeOf(AddNewRecord.prototype), "Load", this).call(this, tasksList);
         }
     }]);
 

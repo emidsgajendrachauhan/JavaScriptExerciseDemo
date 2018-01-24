@@ -37,7 +37,7 @@ class BaseElementUpdater {
 
         btn1.addEventListener('click', function (btn1) {
             document.getElementById(btn1.path[0].id);
-        })
+        });
         btn2.addEventListener('click', function (btn2) {
             //Deleting row from HTML
             let removeChileRow = document.getElementById(btn2.path[0].id).parentNode;
@@ -46,7 +46,7 @@ class BaseElementUpdater {
 
             //tasksList.splice(removeChileRow.id, 1);
             tasksList.splice(tasksList.findIndex(index => index.key === parseInt(removeChileRow.id)), 1); //Deleting record from Global list
-        })
+        });
 
         //Appending HTML dynamically to li node
         li.appendChild(lbl);
@@ -61,7 +61,7 @@ class BaseElementUpdater {
     //Loading all the tasks
     Load(tasksListVar) {
         document.getElementById('myUL').innerHTML = "";
-        for (var item of tasksListVar) {
+        for (let item of tasksListVar) {
             this.LoadDashboard(item.key, item.value);
         }
     }
@@ -112,21 +112,36 @@ class AddNewRecord extends BaseElementUpdater {
     //     }
     // }
 
+    //Filter functionality
     FilterData() {
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("searchTask");
-        filter = input.value.toUpperCase();
+        let filter, ul, li, a, i;
+        filter = document.getElementById("searchTask").value.toUpperCase();
         ul = document.getElementById("myUL");
         li = ul.getElementsByTagName("li");
-        for (i = 0; i < li.length; i++){
+        for (i = 0; i < li.length; i++) {
             a = li[i].getElementsByTagName("label")[1];
-            if (a != null &&a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            if (a != null && a.innerHTML.toUpperCase().indexOf(filter) > -1) {
                 li[i].style.display = "";
             }
-            else{
+            else {
                 li[i].style.display = "none";
             }
         }
+    }
+
+    //Delete functionality
+    RemoveSelectedData() {
+        let needToRemove = new Array();
+        for (let item of tasksList) {
+            if (document.querySelector(`#chk_${item.key}`).checked) {
+                needToRemove.push(tasksList.findIndex(index => index.key === parseInt(item.key)));
+            }
+        }
+        //Removing data from list in reverse fashion as in forward mode not able to get the last index
+        for (let itemRemove of needToRemove.reverse()) {
+            tasksList.splice(itemRemove, 1);
+        }
+        super.Load(tasksList);
     }
 
 }
