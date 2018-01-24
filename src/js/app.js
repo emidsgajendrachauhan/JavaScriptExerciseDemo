@@ -38,6 +38,7 @@ var BaseElementUpdater = function () {
             //Adding Label with Input value
             var lbl1 = document.createElement('label');
             lbl1.className = "col-sm-9";
+            lbl1.id = "lbl_" + inputKey;
             var t = document.createTextNode(inputValue);
             lbl1.appendChild(t);
 
@@ -87,6 +88,7 @@ var BaseElementUpdater = function () {
             var txtBoxEdit = document.createElement('input');
             txtBoxEdit.className = "col-sm-10";
             txtBoxEdit.type = "text";
+            txtBoxEdit.id = "editedText_" + inputKey;
             txtBoxEdit.value = inputValue;
             var btn1Edit = document.createElement('button');
             var btn2Edit = document.createElement('button');
@@ -96,7 +98,26 @@ var BaseElementUpdater = function () {
             btn2Edit.id = "editCancelBtn_" + inputKey;
             btn1Edit.innerHTML = "Save";
             btn2Edit.innerHTML = "Cancel";
-            btn1Edit.addEventListener('click', function (btn1Edit) {});
+            btn1Edit.addEventListener('click', function (btn1Edit) {
+                var editedTxt = document.getElementById("editedText_" + inputKey).value;
+                if (editedTxt) {
+                    document.getElementById("lbl_" + inputKey).innerHTML = editedTxt;
+
+                    var editList = {
+                        'key': inputKey,
+                        'value': editedTxt
+                    };
+                    tasksList = tasksList.map(function (x) {
+                        return x.key == inputKey ? editList : x;
+                    });
+
+                    this.parentNode.style.display = 'none';
+                    var hideParentNode = document.getElementById(btn1.id).parentNode;
+                    hideParentNode.style.display = '';
+                } else {
+                    alert("You must write something!");
+                }
+            });
             btn2Edit.addEventListener('click', function (btn2Edit) {
                 var showParentNode = document.getElementById(btn1Edit.id).parentNode;
                 showParentNode.style.display = 'none';

@@ -22,6 +22,7 @@ class BaseElementUpdater {
         //Adding Label with Input value
         let lbl1 = document.createElement('label');
         lbl1.className = "col-sm-9";
+        lbl1.id = `lbl_${inputKey}`;
         let t = document.createTextNode(inputValue);
         lbl1.appendChild(t);
 
@@ -69,6 +70,7 @@ class BaseElementUpdater {
         let txtBoxEdit = document.createElement('input');
         txtBoxEdit.className = "col-sm-10";
         txtBoxEdit.type = "text";
+        txtBoxEdit.id = `editedText_${inputKey}`;
         txtBoxEdit.value = inputValue;
         let btn1Edit = document.createElement('button');
         let btn2Edit = document.createElement('button');
@@ -79,12 +81,29 @@ class BaseElementUpdater {
         btn1Edit.innerHTML = "Save";
         btn2Edit.innerHTML = "Cancel";
         btn1Edit.addEventListener('click', function (btn1Edit) {
+            let editedTxt = document.getElementById(`editedText_${inputKey}`).value;
+            if (editedTxt) {
+                document.getElementById(`lbl_${inputKey}`).innerHTML = editedTxt;
+
+                let editList = ({
+                    'key': inputKey,
+                    'value': editedTxt
+                });
+                tasksList = tasksList.map(x => x.key == inputKey ? editList : x);
+
+                this.parentNode.style.display = 'none';
+                let hideParentNode = document.getElementById(btn1.id).parentNode;
+                hideParentNode.style.display = '';
+            }
+            else {
+                alert("You must write something!");
+            }
         });
         btn2Edit.addEventListener('click', function (btn2Edit) {
             let showParentNode = document.getElementById(btn1Edit.id).parentNode;
             showParentNode.style.display = 'none';
             let hideParentNode = document.getElementById(btn1.id).parentNode;
-            hideParentNode.style.display = '';            
+            hideParentNode.style.display = '';
         });
         liEdit.appendChild(txtBoxEdit);
         liEdit.appendChild(btn1Edit);
