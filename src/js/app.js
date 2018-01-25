@@ -12,7 +12,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 //Global Variables
 var node = 0;
-var tasksList = new Array();
+var tasksList = new Map();
 
 var BaseElementUpdater = function () {
     function BaseElementUpdater() {
@@ -67,9 +67,7 @@ var BaseElementUpdater = function () {
                 ul.removeChild(document.getElementById(removeChileRow.id));
 
                 //Deleting record from Global list
-                tasksList.splice(tasksList.findIndex(function (index) {
-                    return index.key === parseInt(removeChileRow.id);
-                }), 1);
+                tasksList.delete(parseInt(removeChileRow.id));
             });
 
             //Appending HTML dynamically to li node
@@ -101,15 +99,37 @@ var BaseElementUpdater = function () {
             btn1Edit.addEventListener('click', function (btn1Edit) {
                 var editedTxt = document.getElementById("editedText_" + inputKey).value;
                 if (editedTxt) {
+                    //Edited HTML and global list
                     document.getElementById("lbl_" + inputKey).innerHTML = editedTxt;
+                    //tasksList.Map(x => x[0] == inputKey ? editedTxt : x);
+                    var _iteratorNormalCompletion = true;
+                    var _didIteratorError = false;
+                    var _iteratorError = undefined;
 
-                    var editList = {
-                        'key': inputKey,
-                        'value': editedTxt
-                    };
-                    tasksList = tasksList.map(function (x) {
-                        return x.key == inputKey ? editList : x;
-                    });
+                    try {
+                        for (var _iterator = tasksList.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var entry = _step.value;
+
+                            if (entry[0] === inputKey) {
+                                tasksList.set(entry[0], editedTxt);
+                            }
+                        }
+
+                        //Toggling Edit view to Readable view
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+                        } finally {
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
+                    }
 
                     this.parentNode.style.display = 'none';
                     var hideParentNode = document.getElementById(btn1.id).parentNode;
@@ -123,6 +143,7 @@ var BaseElementUpdater = function () {
                 showParentNode.style.display = 'none';
                 var hideParentNode = document.getElementById(btn1.id).parentNode;
                 hideParentNode.style.display = '';
+                document.getElementById("editedText_" + inputKey).value = document.getElementById("lbl_" + inputKey).innerHTML;
             });
             liEdit.appendChild(txtBoxEdit);
             liEdit.appendChild(btn1Edit);
@@ -137,27 +158,27 @@ var BaseElementUpdater = function () {
         key: "Load",
         value: function Load(tasksListVar) {
             document.getElementById('myUL').innerHTML = "";
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
 
             try {
-                for (var _iterator = tasksListVar[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var item = _step.value;
+                for (var _iterator2 = tasksListVar[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var item = _step2.value;
 
-                    this.LoadDashboard(item.key, item.value);
+                    this.LoadDashboard(item[0], item[1]);
                 }
             } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
             } finally {
                 try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
                     }
                 } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
                     }
                 }
             }
@@ -184,11 +205,7 @@ var AddNewRecord = function (_BaseElementUpdater) {
             if (inputValue === '') {
                 alert("You must write something!");
             } else {
-                tasksList.push({
-                    'key': node,
-                    'value': inputValue
-                }); //Storing value to global variable
-
+                tasksList.set(node, inputValue);
                 _get(AddNewRecord.prototype.__proto__ || Object.getPrototypeOf(AddNewRecord.prototype), "Load", this).call(this, tasksList);
                 node++;
             }
@@ -223,50 +240,17 @@ var AddNewRecord = function (_BaseElementUpdater) {
     }, {
         key: "RemoveSelectedData",
         value: function RemoveSelectedData() {
-            var needToRemove = new Array();
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
-
-            try {
-                var _loop = function _loop() {
-                    var item = _step2.value;
-
-                    if (document.querySelector("#chk_" + item.key).checked) {
-                        needToRemove.push(tasksList.findIndex(function (index) {
-                            return index.key === parseInt(item.key);
-                        }));
-                    }
-                };
-
-                for (var _iterator2 = tasksList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                    _loop();
-                }
-                //Removing data from list in reverse fashion as in forward mode not able to get the last index
-            } catch (err) {
-                _didIteratorError2 = true;
-                _iteratorError2 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                        _iterator2.return();
-                    }
-                } finally {
-                    if (_didIteratorError2) {
-                        throw _iteratorError2;
-                    }
-                }
-            }
-
             var _iteratorNormalCompletion3 = true;
             var _didIteratorError3 = false;
             var _iteratorError3 = undefined;
 
             try {
-                for (var _iterator3 = needToRemove.reverse()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var itemRemove = _step3.value;
+                for (var _iterator3 = tasksList[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                    var item = _step3.value;
 
-                    tasksList.splice(itemRemove, 1);
+                    if (document.querySelector("#chk_" + item[0]).checked) {
+                        tasksList.delete(item[0]);
+                    }
                 }
             } catch (err) {
                 _didIteratorError3 = true;

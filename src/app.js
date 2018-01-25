@@ -1,6 +1,6 @@
 ﻿//Global Variables
 let node = 0;
-let tasksList = new Array();
+let tasksList = new Map();
 
 class BaseElementUpdater {
     constructor() { }
@@ -51,7 +51,7 @@ class BaseElementUpdater {
             ul.removeChild(document.getElementById(removeChileRow.id))
 
             //Deleting record from Global list
-            tasksList.splice(tasksList.findIndex(index => index.key === parseInt(removeChileRow.id)), 1);
+            tasksList.delete(parseInt(removeChileRow.id));
         });
 
         //Appending HTML dynamically to li node
@@ -83,14 +83,16 @@ class BaseElementUpdater {
         btn1Edit.addEventListener('click', function (btn1Edit) {
             let editedTxt = document.getElementById(`editedText_${inputKey}`).value;
             if (editedTxt) {
+                //Edited HTML and global list
                 document.getElementById(`lbl_${inputKey}`).innerHTML = editedTxt;
+                //tasksList.Map(x => x[0] == inputKey ? editedTxt : x);
+                for (let entry of tasksList.entries()) {
+                    if (entry[0] === inputKey) {
+                        tasksList.set(entry[0], editedTxt);
+                    }
+                }
 
-                let editList = ({
-                    'key': inputKey,
-                    'value': editedTxt
-                });
-                tasksList = tasksList.map(x => x.key == inputKey ? editList : x);
-
+                //Toggling Edit view to Readable view
                 this.parentNode.style.display = 'none';
                 let hideParentNode = document.getElementById(btn1.id).parentNode;
                 hideParentNode.style.display = '';
@@ -104,6 +106,7 @@ class BaseElementUpdater {
             showParentNode.style.display = 'none';
             let hideParentNode = document.getElementById(btn1.id).parentNode;
             hideParentNode.style.display = '';
+            document.getElementById(`editedText_${inputKey}`).value = document.getElementById(`lbl_${inputKey}`).innerHTML;
         });
         liEdit.appendChild(txtBoxEdit);
         liEdit.appendChild(btn1Edit);
@@ -116,7 +119,7 @@ class BaseElementUpdater {
     Load(tasksListVar) {
         document.getElementById('myUL').innerHTML = "";
         for (let item of tasksListVar) {
-            this.LoadDashboard(item.key, item.value);
+            this.LoadDashboard(item[0], item[1]);
         }
     }
 }
@@ -131,11 +134,7 @@ class AddNewRecord extends BaseElementUpdater {
             alert("You must write something!");
         }
         else {
-            tasksList.push({
-                'key': node,
-                'value': inputValue
-            });//Storing value to global variable
-
+            tasksList.set(node, inputValue);
             super.Load(tasksList);
             node++;
         }
@@ -161,15 +160,10 @@ class AddNewRecord extends BaseElementUpdater {
 
     //Delete functionality
     RemoveSelectedData() {
-        let needToRemove = new Array();
         for (let item of tasksList) {
-            if (document.querySelector(`#chk_${item.key}`).checked) {
-                needToRemove.push(tasksList.findIndex(index => index.key === parseInt(item.key)));
+            if (document.querySelector(`#chk_${item[0]}`).checked) {
+                tasksList.delete(item[0]);
             }
-        }
-        //Removing data from list in reverse fashion as in forward mode not able to get the last index
-        for (let itemRemove of needToRemove.reverse()) {
-            tasksList.splice(itemRemove, 1);
         }
         super.Load(tasksList);
     }
